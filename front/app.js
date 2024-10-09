@@ -46,6 +46,9 @@ document
         alert("Usuário cadastrado com sucesso!" + data.user.name);
         //Exibe o log no terminal
         console.log("Usuario criado: ", data.user);
+
+        //Reseta os campos do formulario após o sucesso do cadastro
+        document.getElementById("formulario-registro").reset(); 
       })
       .catch((error) => {
         //Captura qualquer erro que ocorra durante o processo de requisição / resposta
