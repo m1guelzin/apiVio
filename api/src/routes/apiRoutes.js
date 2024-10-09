@@ -12,7 +12,7 @@ router.post('/user', userController.createUser);
 // router.delete('/user/:cpf', userController.deleteUser);
 
 router.post('/organizador', orgController.createOrganizador);
-router.get('/organizador', orgController.getAllOrganizadores);
+//router.get('/organizador', orgController.getAllOrganizadores);
 // router.put('/organizador', orgController.updateOrganizador);
 // router.delete('/organizador/:id', orgController.deleteOrganizador);
 

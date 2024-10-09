@@ -21,9 +21,9 @@ module.exports = class userController {
     try{
       connect.query(query, function(err){
         if(err){
-          console.log(err)
-          console.log(err.code)
-          if(err.code === 'ER_DUP_ENTER'){
+          console.log(err);
+          console.log(err.code);
+          if(err.code === 'ER_DUP_ENTRY'){
             return res.status(400).json({error:"O Email ja está vinculado a outro usuário",});
           }else{
             return res.status(500).json({error:"Erro interno do servidor",});
