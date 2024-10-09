@@ -1,9 +1,7 @@
 //Acessa o objeto "Documento" que representa a pagina html
 
-const { json } = require("body-parser");
-const { application } = require("express");
-
 //Seleciona o elemento com o id indicado do forumalario
+
 document
   .getElementById("formulario-registro")
 
@@ -13,10 +11,10 @@ document
     event.preventDefault();
 
     //Captura os valores dos campos do formularios
-    const name = document.getElementById("nome");
-    const cpf = document.getElementById("cpf");
-    const email = document.getElementById("email");
-    const password = document.getElementById("senha");
+    const name = document.getElementById("nome").value;
+    const cpf = document.getElementById("cpf").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("senha").value;
 
     //Requisição HTTP para o endpoint de cadastro de usuario
     fetch("http://localhost:5000/api/v1/user", {
@@ -24,9 +22,36 @@ document
       method: "POST",
       headers: {
         //A requisição será em formato json
-        "Content-Type": application / json,
+        "Content-Type": "application/json",
       },
       //Transforma os dados do formulario de uma string json para serem enviados no corpo da req
       body: JSON.stringify({ name, cpf, email, password }),
-    });
+    })
+      .then((response) => {
+        //Tratamento da resposta do servidor / API
+        if (response.ok) {
+          //verifica se a resposta foi bem sucedida (status 2xx(duzentos e alguma coisa))
+          return response.json();
+        }
+        //Convertendo o erro em formato JSON
+        return response.json().then((err) => {
+          //Mensagem retornada do servidor acessada pela chave "error"
+          throw new Error(err.error);
+        });
+      }) //Fechamento da then(response)
+      .then((data) => {
+        //executa a resposta de sucesso - retorna ao usuario final
+
+        //Exibe um alerta para o usuario final (front) com o nome que acabou de ser cadastrado
+        alert("Usuário cadastrado com sucesso!" + data.user.name);
+        //Exibe o log no terminal
+        console.log("Usuario criado: ", data.user);
+      })
+      .catch((error) => {
+        //Captura qualquer erro que ocorra durante o processo de requisição / resposta
+
+        //Exibe alerta (front) com o erro processado
+        alert("Erro no cadastro " + error.message);
+        console.error("Erro:", error.message);
+      });
   });
