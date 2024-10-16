@@ -69,43 +69,58 @@ module.exports = class userController {
 
   static async updateUser(req, res) {
     // Desestrutura e recupera os dados enviados via corpo da requisição
-    const { cpf, email, password, name } = req.body;
+    const { id, cpf, email, password, name } = req.body;
 
     // Validar se todos os campos foram preenchidos
-    if (!cpf || !email || !password || !name) {
+    if (!id || !cpf || !email || !password || !name) {
       return res
         .status(400)
         .json({ error: "Todos os campos devem ser preenchidos" });
     }
-    //Procurar o indice do user no Array 'users' pelo cpf
-    const userIndex = users.findIndex((user) => user.cpf === cpf);
-    //Se o usuário não for encontrado userIndex equivale a -1
-    if (userIndex === -1) {
-      return res.status(400).json({ error: "Usuário não encontrado" });
+    const query = `UPDATE usuario SET cpf=?, email=?, password=?, name=? WHERE id_usuario = ?`;
+    const values = [cpf, email, password, name, id];
+
+    try{
+      connect.query(query, values, function(err, results){
+        if(err){
+          if (err.code === "ER_DUP_ENTRY"){
+            return res.status(400).json({error: "Email já cadastrado por outro usuário"});
+          } else{
+            console.error(err);
+            res.status(500).json({error: "Erro interno do Servidor"})
+          }
+        }
+        if(results.affectedRows === 0){
+          return res.status(404).json({message: "Usuário não encontrado"});
+        }
+        return res.status(200).json({message: "Usuário atualizado com sucesso"});
+      });
+    }catch(error){
+      console.error("Erro ao executar consulta", error);
+      return res.status(500).json({error: "Erro interno do Servidor"});
     }
-
-    //Atualiza os dados do usuário no Array 'users'
-    users[userIndex] = { cpf, email, password, name };
-
-    return res
-      .status(200)
-      .json({ message: "Usuário atualizado", user: users[userIndex] });
   }
 
   static async deleteUser(req, res) {
     // Obtem o parametro 'id' da requisição, que é o cpf do user a ser deletado
-    const userId = req.params.cpf;
+    const userId = req.params.id;
+    const query = `DELETE FROM usuario WHERE id_usuario=?`;
+    const values = [userId];
 
-    //Procurar o indice do user no Array 'users' pelo cpf
-    const userIndex = users.findIndex((user) => user.cpf === userId);
-    //Se o usuário não for encontrado userIndex equivale a -1
-    if (userIndex === -1) {
-      return res.status(400).json({ error: "Usuário não encontrado" });
+    try{
+      connect.query(query,values,function(err,results){
+        if(err){
+          console.error(err);
+          return res.status(500).json({error: "Erro interno no servidor"});
+        }
+        if(results.affectedRows === 0){
+          return res.status(404).json({error: "Usuário não encontrado"});
+        }
+        return res.status(200).json({message:"Usuário excluido com sucesso"});
+      });
+    }catch(error){
+      console.error(err);
+      return res.status(500).json({error: "Erro interno do servidor"});
     }
-
-    // Removendo o usuário do Array 'users'
-    users.splice(userIndex, 1);
-
-    return res.status(200).json({ message: "Usuário Apagado!" });
   }
 };
