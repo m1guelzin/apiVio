@@ -115,3 +115,35 @@ footer {
   bottom: 0; /* Posiciona o rodapé na parte inferior da página */
 }
 
+.h2-lista{
+  text-align: center;
+  background-color: #4caf50;
+  max-width: 600px;
+  max-height: 50px;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+#user-list {
+  background-color: #4caf50; 
+  border: 1px solid rgb(0, 0, 0); 
+  border-radius: 4px; 
+  max-width: 600px; 
+  font-family: Arial, sans-serif; 
+  line-height: 1.6; 
+  text-align: center;
+}
+
+#user-list li {
+  margin-bottom: 10px; 
+  padding: 10px;
+  background-color: #e6f7ff; 
+  border: 1px solid #b3d9ff; 
+  border-radius: 4px; 
+  font-size: 16px; 
+  list-style: none;
+  align-items: center;
+}
+
+
