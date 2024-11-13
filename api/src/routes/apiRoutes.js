@@ -24,11 +24,16 @@ router.post('/evento', eventoController.createEvento);
 router.get('/evento', eventoController.getAllEventos);
 router.put('/evento', eventoController.updateEvento);
 router.delete('/evento/:id', eventoController.deleteEvento);
+//Rotas para manipular data
+router.get('/evento/data', eventoController.getEventosPorData);
+router.get("/evento/:data", eventoController.getEventosPorData7Dias);
+
 
 //Rotas ingressoController
 router.post('/ingresso', ingressoController.createIngresso);
 router.get('/ingresso', ingressoController.getAllIngressos);
 router.put('/ingresso', ingressoController.updateIngresso);
 router.delete('/ingresso/:id', ingressoController.deleteIngresso);
+
 
 module.exports = router
