@@ -143,10 +143,10 @@ static async updateEvento(req, res) {
     }
   }
 
-  static async getEventosPorData7Dias(req, res) {
+  static async getEventosData7Dias(req, res) {
     const dataFiltro = new Date(req.params.data).toISOString().split("T");
-    const dataLimite = new Date(req.params.data);  // Converte a data recebida em um objeto Date
-    dataLimite.setDate(dataLimite.getDate() + 7);  // Adiciona os dias
+    const dataLimite = new Date(req.params.data);  
+    dataLimite.setDate(dataLimite.getDate() + 7);  
     console.log("Data Fornecida:", dataFiltro, "\n");
     console.log("Data Limite:", dataLimite, "\n");
     const query = `SELECT * FROM evento`;
@@ -157,9 +157,9 @@ static async updateEvento(req, res) {
           return res.status(500).json({ error: "Erro ao buscar eventos" });
         }
 
-        const eventosSelecionados = results.filter(
-          (evento) =>
-            new Date(evento.data_hora).toISOString().split("T")[0] >= dataFiltro[0] && new Date(evento.data_hora).toISOString().split("T")[0] < dataLimite.toISOString().split("T")[0]
+        const eventosSelecionados = results.filter((evento) =>
+            new Date(evento.data_hora).toISOString().split("T")[0] >= dataFiltro[0] && 
+            new Date(evento.data_hora).toISOString().split("T")[0] < dataLimite.toISOString().split("T")[0]
         );
 
         console.log(eventosSelecionados);
@@ -172,5 +172,5 @@ static async updateEvento(req, res) {
       console.log("Erro ao executar a querry: ", error);
       return res.status(500).json({ error: "Erro interno do Servidor" });
     }
-  } // fim do 'getEventosPorData7Dias'
+  } 
 };

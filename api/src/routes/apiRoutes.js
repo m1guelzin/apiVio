@@ -26,7 +26,7 @@ router.put('/evento', eventoController.updateEvento);
 router.delete('/evento/:id', eventoController.deleteEvento);
 //Rotas para manipular data
 router.get('/evento/data', eventoController.getEventosPorData);
-router.get("/evento/:data", eventoController.getEventosPorData7Dias);
+router.get("/evento/:data", eventoController.getEventosData7Dias);
 
 
 //Rotas ingressoController
