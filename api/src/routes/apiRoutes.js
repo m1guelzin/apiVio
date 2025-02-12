@@ -7,7 +7,7 @@ const ingressoController = require('../controllers/ingressoController');
 
 //Rotas userController
 router.post('/user', userController.createUser);
-//router.post('user/login', userController.postLogin);
+router.post('/login', userController.loginUser);
 router.get('/user', userController.getAllUsers);
 //router.get('/user/:cpf', userController.getxUserById); 
 router.put('/user', userController.updateUser);
