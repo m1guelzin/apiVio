@@ -108,27 +108,33 @@ module.exports = class userController {
     const userId = req.params.id;
     const query = `DELETE FROM usuario WHERE id_usuario = ?`;
     const values = [userId];
-
+  
     try {
       connect.query(query, values, function (err, results) {
         if (err) {
           console.error(err);
+  
+          if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+            return res.status(400).json({
+              error: "Erro. Vínculado a outros Registros",
+            });
+          }
+  
           return res.status(500).json({ error: "Erro interno do servidor" });
         }
-
+  
         if (results.affectedRows === 0) {
           return res.status(404).json({ error: "Usuário não encontrado" });
         }
-
-        return res
-          .status(200)
-          .json({ message: "Usuário excluído com ID: " + userId });
+  
+        return res.status(200).json({ message: "Usuário excluído com ID: " + userId });
       });
     } catch (error) {
       console.error("Erro ao executar a consulta:", error);
       return res.status(500).json({ error: "Erro interno do servidor" });
     }
   }
+  
 
   // Método de Login - Implementar
   static async loginUser(req, res) {
