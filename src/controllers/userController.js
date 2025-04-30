@@ -1,6 +1,7 @@
 const connect = require("../db/connect");
 const validateUser = require("../services/validateUser");
 const validateCpf = require("../services/validateCpf");
+const jwt = require("jsonwebtoken");
 
 module.exports = class userController {
   static async createUser(req, res) {
@@ -139,31 +140,42 @@ module.exports = class userController {
   // Método de Login - Implementar
   static async loginUser(req, res) {
     const { email, password } = req.body;
-
+  
     if (!email || !password) {
       return res.status(400).json({ error: "Email e senha são obrigatórios" });
     }
-
+  
     const query = `SELECT * FROM usuario WHERE email = ?`;
-
+  
     try {
       connect.query(query, [email], (err, results) => {
         if (err) {
           console.error("Erro ao executar a consulta:", err);
           return res.status(500).json({ error: "Erro interno do servidor" });
         }
-
+  
         if (results.length === 0) {
           return res.status(401).json({ error: "Usuário não encontrado" });
         }
-
+  
         const user = results[0];
-
+  
         if (user.password !== password) {
           return res.status(401).json({ error: "Senha incorreta" });
         }
-
-        return res.status(200).json({ message: "Login bem-sucedido", user });
+  
+        const token = jwt.sign({ id: user.id_usuario }, process.env.SECRET, {
+          expiresIn: "1h", 
+        });
+  
+        // remove a senha do retorno
+        delete user.password;
+  
+        return res.status(200).json({
+          message: "Login bem-sucedido",
+          user,
+          token,
+        });
       });
     } catch (error) {
       console.error("Erro ao executar a consulta:", error);
