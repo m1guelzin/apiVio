@@ -16,7 +16,7 @@ module.exports = class orgController {
         });
     } else if (!email.includes("@")) {
       return res.status(400).json({ error: "Email inválido. Deve conter @" });
-    } else {
+      } else {
       // Construção da query INSERT
       const query = `INSERT INTO organizador (telefone, senha, email, nome) VALUES(
       '${telefone}',
