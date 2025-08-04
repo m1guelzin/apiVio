@@ -10,3 +10,13 @@ do
         where data_hora between now() and now() + interval 7 day
 
     );
+
+
+
+
+
+insert into evento (id_evento, nome,descricao, data_hora,local, fk_id_organizador)
+values (3001, 'Evento 1','teste', now(),'franca' , 1);
+
+insert into ingresso (id_ingresso,preco,tipo,fk_id_evento)
+values (4001, 100.00, 'pists', 3001)

@@ -22,7 +22,7 @@ create function status_sistema()
 returns varchar(50)
 no sql
 begin
-    return 'Sistem Funcionando Normalmente';
+    return 'Sistema Funcionando Normalmente';
 end; $$
 delimiter ;
 
@@ -86,12 +86,12 @@ begin
 end; $$
 delimiter ;
 
-select mensagem_boas_vindas('Miguelzin')
+select mensagem_boas_vindas('matezin')
 
 select routine_name from
 information_schema.routines
     where routine_type = 'FUNCTION'
-        and routine_schema = 'vio_miguel';
+        and routine_schema = 'vio_mateus';
 
 
 -- maior idade
