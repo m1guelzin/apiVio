@@ -14,4 +14,4 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //Inicia o servidor na porta 5000, tornando a API acessível em http://localhost:5000/api/v1/
-app.listen(5000);
+app.listen(5001);
